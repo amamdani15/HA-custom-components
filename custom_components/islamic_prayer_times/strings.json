@@ -18,7 +18,11 @@
           "calculation_method": "Prayer calculation method",
           "school": "Asr calculation school",
           "midnightMode": "Midnight calculation method",
-          "latitudeAdjustmentMethod": "Method for adjusting times for higher latitudes"
+          "latitudeAdjustmentMethod": "Method for adjusting times for higher latitudes",
+          "customFajrAngle" : "Custom fajr angle",
+          "maghribAngleOrMinsAfterSunset" : "Maghrib angle or minutes after sunset",
+          "ishaAngleOrMinsAfterSunset" : "Isha angle or minutes after sunset"
+
         }
       }
     }

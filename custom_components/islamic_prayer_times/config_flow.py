@@ -20,6 +20,9 @@ from .const import (
     MIDNIGHT_MODES,
     NAME,
     SCHOOLS,
+    CONF_CUSTOM_FAJR_ANGLE,
+    CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET,
+    CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET
 )
 
 
@@ -85,6 +88,24 @@ class IslamicPrayerOptionsFlowHandler(config_entries.OptionsFlow):
                     CONF_LAT_ADJ_METHOD, DEFAULT_LAT_ADJ_METHOD
                 ),
             ): vol.In(LAT_ADJ_METHODS),
+            vol.Optional(
+                CONF_CUSTOM_FAJR_ANGLE,
+                default=self.config_entry.options.get(
+                    CONF_CUSTOM_FAJR_ANGLE
+                ),
+            ): int,
+            vol.Optional(
+                CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET,
+                default=self.config_entry.options.get(
+                    CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET, 0
+                ),
+            ): int,
+            vol.Optional(
+                CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET,
+                default=self.config_entry.options.get(
+                    CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET, 0
+                ),
+            ): int,
         }
 
         return self.async_show_form(step_id="init", data_schema=vol.Schema(options))

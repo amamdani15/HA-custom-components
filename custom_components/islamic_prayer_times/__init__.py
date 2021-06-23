@@ -20,6 +20,10 @@ from .const import (
     LAT_ADJ_METHODS,
     MIDNIGHT_MODES,
     SCHOOLS,
+    CONF_CUSTOM_FAJR_ANGLE,
+    CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET,
+    CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET
+
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -38,6 +42,10 @@ CONFIG_SCHEMA = vol.Schema(
             vol.Optional(CONF_LAT_ADJ_METHOD, default=DEFAULT_LAT_ADJ_METHOD): vol.In(
                 LAT_ADJ_METHODS
             ),
+            vol.Optional(CONF_CUSTOM_FAJR_ANGLE, default=0): int,
+            vol.Optional(CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET, default=0): int,
+            vol.Optional(CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET, default=0): int,
+
         }
     },
     extra=vol.ALLOW_EXTRA,

@@ -30,6 +30,11 @@ from .const import (
     LAT_ADJ_METHODS,
     MIDNIGHT_MODES,
     SCHOOLS,
+    CONF_CUSTOM_FAJR_ANGLE,
+    CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET,
+    CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET
+
+
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -78,20 +83,47 @@ class IslamicPrayerApi:
             + 1
         )
 
+    @property
+    def custom_fajr_angle(self):
+        """return custom fajr angle if present"""
+        return (self.config_entry.options.get(CONF_CUSTOM_FAJR_ANGLE, 0))
+
+    @property
+    def custom_maghrib(self):
+        return self.config_entry.options.get(CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET)
+    
+    @property
+    def custom_isha(self):
+        return self.config_entry.options.get(CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET)
+
     async def async_get_new_prayer_times(self):
         """Return prayer times for selected dates."""
 
         prayer_times = {}
         prayer_times_all = []
 
-        params = {
-            CONF_LATITUDE: str(self.hass.config.latitude),
-            CONF_LONGITUDE: str(self.hass.config.longitude),
-            CONF_METHOD: self.calc_method,
-            CONF_SCHOOL: self.school,
-            CONF_MIDNIGHT_MODE: self.midnight_mode,
-            CONF_LAT_ADJ_METHOD: self.lat_adj_method,
-        }
+        _LOGGER.info("retrving")
+
+        if self.calc_method == 99:
+            params = {
+                CONF_LATITUDE: str(self.hass.config.latitude),
+                CONF_LONGITUDE: str(self.hass.config.longitude),
+                CONF_METHOD: self.calc_method,
+                "methodSettings": (str(self.custom_fajr_angle) + "," + str(self.custom_maghrib) + "," + str(self.custom_isha))
+            }
+        else:
+            params = {
+                CONF_LATITUDE: str(self.hass.config.latitude),
+                CONF_LONGITUDE: str(self.hass.config.longitude),
+                CONF_METHOD: self.calc_method,
+                CONF_SCHOOL: self.school,
+                CONF_MIDNIGHT_MODE: self.midnight_mode,
+                CONF_LAT_ADJ_METHOD: self.lat_adj_method,
+            }
+
+        _LOGGER.info(params)
+        _LOGGER.info("retrved")
+
 
         session = aiohttp_client.async_get_clientsession(self.hass)
         # i = 0
@@ -99,6 +131,7 @@ class IslamicPrayerApi:
             date = dt_util.now().date() + timedelta(days=i)
             date_timestamp = dt_util.as_timestamp(date)
             try:
+                _LOGGER.info(f"{API_URL}/{int(date_timestamp)}")
                 with async_timeout.timeout(10):
                     response = await session.get(
                         f"{API_URL}/{int(date_timestamp)}", params=params
@@ -127,38 +160,37 @@ class IslamicPrayerApi:
 
     async def async_schedule_future_update(self):
         """Schedule future update for sensors.
-
         Midnight is a calculated time.  The specifics of the calculation
         depends on the method of the prayer time calculation.  This calculated
         midnight is the time at which the time to pray the Isha prayers have
         expired.
-
         Calculated Midnight: The Islamic midnight.
         Traditional Midnight: 12:00AM
-
         Update logic for prayer times:
-
         If the Calculated Midnight is before the traditional midnight then wait
         until the traditional midnight to run the update.  This way the day
         will have changed over and we don't need to do any fancy calculations.
-
         If the Calculated Midnight is after the traditional midnight, then wait
         until after the calculated Midnight.  We don't want to update the prayer
         times too early or else the timings might be incorrect.
-
         Example:
         calculated midnight = 11:23PM (before traditional midnight)
         Update time: 12:00AM
-
         calculated midnight = 1:35AM (after traditional midnight)
         update time: 1:36AM.
-
         """
         _LOGGER.debug("Scheduling next update for Islamic prayer times")
 
         now = dt_util.utcnow()
 
         midnight_dt = self.today_prayer_times["Midnight"]
+
+        _LOGGER.debug("now = %s", now)
+        _LOGGER.debug("midnight_dt = %s", dt_util.as_utc(midnight_dt))
+
+        _LOGGER.debug(now > dt_util.as_utc(midnight_dt))
+        _LOGGER.debug(now < dt_util.as_utc(midnight_dt))
+
 
         if now > dt_util.as_utc(midnight_dt):
             next_update_at = midnight_dt + timedelta(days=1, minutes=1)

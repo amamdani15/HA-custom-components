@@ -1,5 +1,5 @@
 """Constants for the Islamic Prayer component."""
-DOMAIN = "islamic_prayer_times"
+DOMAIN = "islamic_prayer_times_custom"
 NAME = "Islamic Prayer Times"
 PRAYER_TIMES_ICON = "mdi:calendar-clock"
 
@@ -14,6 +14,7 @@ SENSOR_TYPES = {
     "Asr": "prayer",
     "Maghrib": "prayer",
     "Isha": "prayer",
+    "Sunset" : "time",
     "Imsak": "time",
     "Midnight": "time",
 }
@@ -22,8 +23,12 @@ CONF_CALC_METHOD = "calculation_method"
 CONF_SCHOOL = "school"
 CONF_MIDNIGHT_MODE = "midnightMode"
 CONF_LAT_ADJ_METHOD = "latitudeAdjustmentMethod"
+CONF_CUSTOM_FAJR_ANGLE = "customFajrAngle"
+CONF_MAGHRIB_ANGLE_OR_MINS_AFTER_SUNSET = "maghribAngleOrMinsAfterSunset"
+CONF_ISHA_ANGLE_OR_MINS_AFTER_SUNSET = "ishaAngleOrMinsAfterSunset"
 
 CALC_METHODS = {
+    "Shia Intha-Ashari": 0,
     "Karachi": 1,
     "ISNA": 2,
     "MWL": 3,
@@ -37,10 +42,12 @@ CALC_METHODS = {
     "France": 12,
     "Turkey": 13,
     "Russia": 14,
+    "Custom": 99
 }
 SCHOOLS = ["Shafi", "Hanafi"]
 LAT_ADJ_METHODS = ["Middle of the Night", "One Seventh", "Angle Based"]
 MIDNIGHT_MODES = ["Standard", "Jafari"]
+
 
 DEFAULT_CALC_METHOD = "ISNA"
 DEFAULT_SCHOOL = "Shafi"
