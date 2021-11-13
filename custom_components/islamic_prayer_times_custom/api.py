@@ -220,6 +220,8 @@ class IslamicPrayerApi:
             async_call_later(self.hass, 60, self.async_update)
             return
 
+        _LOGGER.info("prayer_times") 
+        _LOGGER.info(prayer_times) 
         self.today_prayer_times = prayer_times.pop(0)
         self.weekly_prayer_times = prayer_times
         await self.async_schedule_future_update()
