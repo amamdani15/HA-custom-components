@@ -3,10 +3,11 @@
 import asyncio
 from datetime import timedelta
 import logging
+import http
 
 import async_timeout
 
-from homeassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_METHOD, HTTP_OK
+from homeassistant.const import CONF_LATITUDE, CONF_LONGITUDE, CONF_METHOD
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import aiohttp_client
 from homeassistant.helpers.dispatcher import async_dispatcher_send
@@ -141,7 +142,7 @@ class IslamicPrayerApi:
                 _LOGGER.error("%s is not responding", API_URL)
                 raise ConnectionError
 
-            if response.status != HTTP_OK:
+            if response.status != http.HTTPStatus.OK:
                 resp = await response.text()
                 _LOGGER.warning("Error retrving information: %s", resp)
                 return None
