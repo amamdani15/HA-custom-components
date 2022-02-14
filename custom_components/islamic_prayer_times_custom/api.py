@@ -137,6 +137,8 @@ class IslamicPrayerApi:
                     response = await session.get(
                         f"{API_URL}/{int(date_timestamp)}", params=params
                     )
+                    _LOGGER.info("RESPONSE")
+                    _LOGGER.info(response)
 
             except asyncio.TimeoutError:
                 _LOGGER.error("%s is not responding", API_URL)
@@ -239,7 +241,7 @@ class IslamicPrayerApi:
         except ConnectionError:
             raise ConfigEntryNotReady
 
-        await self.async_update()
+        # await self.async_update()
         self.config_entry.add_update_listener(self.async_options_updated)
 
         self.hass.async_create_task(
