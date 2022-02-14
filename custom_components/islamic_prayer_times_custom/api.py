@@ -235,13 +235,13 @@ class IslamicPrayerApi:
     async def async_setup(self):
         """Set up the Islamic prayer client."""
 
-        try:
-            if not await self.async_get_new_prayer_times():
-                return False
-        except ConnectionError:
-            raise ConfigEntryNotReady
+        # try:
+        #     if not await self.async_get_new_prayer_times():
+        #         return False
+        # except ConnectionError:
+        #     raise ConfigEntryNotReady
 
-        # await self.async_update()
+        await self.async_update()
         self.config_entry.add_update_listener(self.async_options_updated)
 
         self.hass.async_create_task(
