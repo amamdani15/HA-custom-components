@@ -17,6 +17,7 @@ SENSOR_TYPES: Final[tuple[SensorEntityDescription, ...]] = (
     SensorEntityDescription(key="Maghrib", name="Maghrib prayer"),
     SensorEntityDescription(key="Isha", name="Isha prayer"),
     SensorEntityDescription(key="Sunrise", name="Sunrise time"),
+    SensorEntityDescription(key="Sunset", name="Sunset time"),
     SensorEntityDescription(key="Imsak", name="Imsak time"),
     SensorEntityDescription(key="Midnight", name="Midnight time"),
 )
