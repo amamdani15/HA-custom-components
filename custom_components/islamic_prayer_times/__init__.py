@@ -18,7 +18,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await coordinator.async_config_entry_first_refresh()
 
     hass.data.setdefault(DOMAIN, coordinator)
-
+    print("prayer1")
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     return True
@@ -26,6 +26,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload Islamic Prayer entry from config_entry."""
+    print("prayer2")
     if unload_ok := await hass.config_entries.async_unload_platforms(entry, PLATFORMS):
         coordinator: IslamicPrayerDataUpdateCoordinator = hass.data.pop(DOMAIN)
         if coordinator.event_unsub:
@@ -35,6 +36,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_update_options(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Update calc_method option from old entry."""
+    print("prayer3")
     if old_calc_method := entry.options.get(CONF_CALC_METHOD):
         if old_calc_method not in CALC_METHODS:
             new_options = {**entry.options}

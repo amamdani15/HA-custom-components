@@ -27,6 +27,9 @@ from .const import (
     NAME,
     SCHOOLS,
     TIMES_TUNE,
+    CONF_FAJR_ANGLE,
+    CONF_MAGHRIB_ANGLE_MINUTES,
+    CONF_ISHA_ANGLE_MINUTES
 )
 
 
@@ -99,6 +102,24 @@ class IslamicPrayerOptionsFlowHandler(config_entries.OptionsFlow):
             ): selector.SelectSelector(
                 selector.SelectSelectorConfig(options=LAT_ADJ_METHODS)
             ),
+            vol.Optional(
+                CONF_FAJR_ANGLE,
+                default=self.config_entry.options.get(
+                    CONF_FAJR_ANGLE, 0
+                ),
+            ): int,
+            vol.Optional(
+                CONF_MAGHRIB_ANGLE_MINUTES,
+                default=self.config_entry.options.get(
+                    CONF_MAGHRIB_ANGLE_MINUTES, 0
+                ),
+            ): int,
+            vol.Optional(
+                CONF_ISHA_ANGLE_MINUTES,
+                default=self.config_entry.options.get(
+                    CONF_ISHA_ANGLE_MINUTES, 0
+                ),
+            ): int,
         }
 
         return self.async_show_form(

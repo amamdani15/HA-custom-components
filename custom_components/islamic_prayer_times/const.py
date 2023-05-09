@@ -22,6 +22,10 @@ CONF_MAGHRIB_TUNE: Final = "maghrib_tune"
 CONF_SUNSET_TUNE: Final = "sunset_tune"
 CONF_ISHA_TUNE: Final = "isha_tune"
 CONF_MIDNIGHT_TUNE: Final = "midnight_tune"
+CONF_FAJR_ANGLE: Final = "fajrAngle"
+CONF_MAGHRIB_ANGLE_MINUTES: Final = "maghribAngleOrMinsAfterSunset"
+CONF_ISHA_ANGLE_MINUTES: Final = "ishaAngleOrMinsAfterSunset"
+
 
 CALC_METHODS: Final = [
     "Jafari",
@@ -38,6 +42,7 @@ CALC_METHODS: Final = [
     "France",
     "Turkey",
     "Russia",
+    "Custom"
 ]
 
 SCHOOLS: Final = ["Shafi", "Hanafi"]
