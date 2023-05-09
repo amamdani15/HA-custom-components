@@ -3,24 +3,10 @@ from __future__ import annotations
 
 from typing import Final
 
-from homeassistant.components.sensor import SensorEntityDescription
-
 DOMAIN: Final = "islamic_prayer_times"
 NAME: Final = "Islamic Prayer Times"
 PRAYER_TIMES_ICON: Final = "mdi:calendar-clock"
 
-
-SENSOR_TYPES: Final[tuple[SensorEntityDescription, ...]] = (
-    SensorEntityDescription(key="Fajr", name="Fajr prayer"),
-    SensorEntityDescription(key="Dhuhr", name="Dhuhr prayer"),
-    SensorEntityDescription(key="Asr", name="Asr prayer"),
-    SensorEntityDescription(key="Maghrib", name="Maghrib prayer"),
-    SensorEntityDescription(key="Isha", name="Isha prayer"),
-    SensorEntityDescription(key="Sunrise", name="Sunrise time"),
-    SensorEntityDescription(key="Sunset", name="Sunset time"),
-    SensorEntityDescription(key="Imsak", name="Imsak time"),
-    SensorEntityDescription(key="Midnight", name="Midnight time"),
-)
 
 CONF_CALC_METHOD: Final = "calculation_method"
 CONF_SCHOOL: Final = "school"
@@ -36,10 +22,6 @@ CONF_MAGHRIB_TUNE: Final = "maghrib_tune"
 CONF_SUNSET_TUNE: Final = "sunset_tune"
 CONF_ISHA_TUNE: Final = "isha_tune"
 CONF_MIDNIGHT_TUNE: Final = "midnight_tune"
-CONF_FAJR_ANGLE: Final = "fajr_angle"
-CONF_MAGHRIB_ANGLE: Final = "maghrib_angle"
-CONF_ISHA_ANGLE: Final = "isha_angle"
-
 
 CALC_METHODS: Final = [
     "Jafari",
@@ -56,7 +38,6 @@ CALC_METHODS: Final = [
     "France",
     "Turkey",
     "Russia",
-    "Custom"
 ]
 
 SCHOOLS: Final = ["Shafi", "Hanafi"]
@@ -73,9 +54,6 @@ TIMES_TUNE: Final = [
     CONF_SUNSET_TUNE,
     CONF_ISHA_TUNE,
     CONF_MIDNIGHT_TUNE,
-    CONF_FAJR_ANGLE,
-    CONF_MAGHRIB_ANGLE,
-    CONF_ISHA_ANGLE
 ]
 
 DEFAULT_CALC_METHOD: Final = "ISNA"

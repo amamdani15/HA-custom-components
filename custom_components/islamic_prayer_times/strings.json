@@ -30,12 +30,7 @@
           "maghrib_tune": "Maghrib prayer offset",
           "sunset_tune": "Sunset time offset",
           "isha_tune": "Isha prayer offset",
-          "midnight_tune": "Midnight time offset",
-          "fajr_angle": "Fajr calculation angle",
-          "maghrib_angle": "Maghrib calculation angle",
-          "isha_angle": "Isha calculation angle"
-
-
+          "midnight_tune": "Midnight time offset"
         },
         "description": "Set prayer times offset"
       }
