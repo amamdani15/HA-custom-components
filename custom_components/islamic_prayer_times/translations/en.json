@@ -1,0 +1,39 @@
+{
+    "config": {
+        "abort": {
+            "single_instance_allowed": "Already configured. Only a single configuration possible."
+        },
+        "step": {
+            "user": {
+                "description": "Do you want to set up Islamic Prayer Times?"
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "calculation_method": "Prayer calculation method",
+                    "latitudeAdjustmentMethod": "Method for adjusting times for higher latitudes",
+                    "midnightMode": "Midnight calculation method",
+                    "school": "Asr calculation school"
+                },
+                "description": "Configure calculation parameters"
+            },
+            "set_times_tune": {
+                "data": {
+                    "asr_tune": "Asr prayer offset",
+                    "dhuhr_tune": "Dhuhr prayer offset",
+                    "fajr_tune": "Fajr prayer offset",
+                    "imsak_tune": "Imsak prayer offset",
+                    "isha_tune": "Isha prayer offset",
+                    "maghrib_tune": "Maghrib prayer offset",
+                    "midnight_tune": "Midnight time offset",
+                    "sunrise_tune": "Sunrise time offset",
+                    "sunset_tune": "Sunset time offset"
+                },
+                "description": "Set prayer times offset"
+            }
+        }
+    }
+}
