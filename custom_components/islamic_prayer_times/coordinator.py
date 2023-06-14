@@ -24,6 +24,13 @@ from .const import (
     DEFAULT_MIDNIGHT_MODE,
     DEFAULT_SCHOOL,
     DOMAIN,
+    CONF_FAJR_ANGLE,
+    CONF_MAGHRIB_ANGLE_MINUTES,
+    CONF_ISHA_ANGLE_MINUTES,
+    DEFAULT_CONF_FAJR_ANGLE,
+    DEFAULT_CONF_MAGHRIB_ANGLE_MINUTES,
+    DEFAULT_CONF_ISHA_ANGLE_MINUTES,
+
 )
 
 _LOGGER = logging.getLogger(__name__)
@@ -59,6 +66,15 @@ class IslamicPrayerDataUpdateCoordinator(DataUpdateCoordinator[dict[str, datetim
             CONF_LAT_ADJ_METHOD: self.config_entry.options.get(
                 CONF_LAT_ADJ_METHOD, DEFAULT_LAT_ADJ_METHOD
             ),
+            CONF_FAJR_ANGLE: self.config_entry.options.get(
+                CONF_FAJR_ANGLE,DEFAULT_CONF_FAJR_ANGLE
+            ),
+            CONF_MAGHRIB_ANGLE_MINUTES: self.config_entry.options.get(
+                CONF_MAGHRIB_ANGLE_MINUTES,DEFAULT_CONF_MAGHRIB_ANGLE_MINUTES
+            ),
+            CONF_ISHA_ANGLE_MINUTES: self.config_entry.options.get(
+                CONF_ISHA_ANGLE_MINUTES,DEFAULT_CONF_ISHA_ANGLE_MINUTES
+            )
         }
         if self.config_entry.options.get(CONF_TUNE):
             params[CONF_TUNE] = True
