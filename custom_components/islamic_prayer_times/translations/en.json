@@ -17,9 +17,9 @@
                     "latitudeAdjustmentMethod": "Method for adjusting times for higher latitudes",
                     "midnightMode": "Midnight calculation method",
                     "school": "Asr calculation school",
-                    "fajrAngle": "Custom Fajr Angle",
-                    "maghribAngleOrMinsAfterSunset" : "Maghrib angle or minutes after sunset",
-                    "ishaAngleOrMinsAfterSunset" : "Isha angle or minutes after sunset"
+                    "fajr_angle": "Custom Fajr Angle",
+                    "maghrib_angle" : "Maghrib angle or minutes after sunset",
+                    "isha_angle" : "Isha angle or minutes after sunset"
                 },
                 "description": "Configure calculation parameters"
             },

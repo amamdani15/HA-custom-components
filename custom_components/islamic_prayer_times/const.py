@@ -22,9 +22,9 @@ CONF_MAGHRIB_TUNE: Final = "maghrib_tune"
 CONF_SUNSET_TUNE: Final = "sunset_tune"
 CONF_ISHA_TUNE: Final = "isha_tune"
 CONF_MIDNIGHT_TUNE: Final = "midnight_tune"
-CONF_FAJR_ANGLE: Final = "fajrAngle"
-CONF_MAGHRIB_ANGLE_MINUTES: Final = "maghribAngleOrMinsAfterSunset"
-CONF_ISHA_ANGLE_MINUTES: Final = "ishaAngleOrMinsAfterSunset"
+CONF_FAJR_ANGLE: Final = "fajr_angle"
+CONF_MAGHRIB_ANGLE_MINUTES: Final = "maghrib_angle"
+CONF_ISHA_ANGLE_MINUTES: Final = "isha_angle"
 
 
 CALC_METHODS: Final = [
@@ -65,5 +65,8 @@ DEFAULT_CALC_METHOD: Final = "ISNA"
 DEFAULT_SCHOOL: Final = "Shafi"
 DEFAULT_MIDNIGHT_MODE: Final = "Standard"
 DEFAULT_LAT_ADJ_METHOD: Final = "Angle Based"
+DEFAULT_CONF_FAJR_ANGLE: Final = "0"
+DEFAULT_CONF_MAGHRIB_ANGLE_MINUTES: Final = "0"
+DEFAULT_CONF_ISHA_ANGLE_MINUTES: Final = "0"
 
 PLATFORMS: Final = ["sensor"]
