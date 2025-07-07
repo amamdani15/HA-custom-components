@@ -1,18 +1,27 @@
 """The islamic_prayer_times component."""
+
 from __future__ import annotations
 
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_LATITUDE, CONF_LOCATION, CONF_LONGITUDE, Platform
+import logging
+
+from homeassistant.const import CONF_LATITUDE, CONF_LONGITUDE, Platform
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import entity_registry as er
 
-from .const import DOMAIN
-from .coordinator import IslamicPrayerDataUpdateCoordinator
+from .coordinator import (
+    IslamicPrayerDataUpdateCoordinator,
+    IslamicPrayerTimesConfigEntry,
+)
 
 PLATFORMS = [Platform.SENSOR]
 
 
-async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+_LOGGER = logging.getLogger(__name__)
+
+
+async def async_setup_entry(
+    hass: HomeAssistant, config_entry: IslamicPrayerTimesConfigEntry
+) -> bool:
     """Set up the Islamic Prayer Component."""
 
     @callback
@@ -27,20 +36,10 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
 
     await er.async_migrate_entries(hass, config_entry.entry_id, update_unique_id)
 
-    # add lat and lon to entry data if not present
-    if not config_entry.data:
-        data = {
-            CONF_LOCATION: {
-                CONF_LATITUDE: hass.config.latitude,
-                CONF_LONGITUDE: hass.config.longitude,
-            }
-        }
-        hass.config_entries.async_update_entry(config_entry, data=data)
-
-    coordinator = IslamicPrayerDataUpdateCoordinator(hass)
+    coordinator = IslamicPrayerDataUpdateCoordinator(hass, config_entry)
     await coordinator.async_config_entry_first_refresh()
 
-    hass.data.setdefault(DOMAIN, {})[config_entry.entry_id] = coordinator
+    config_entry.runtime_data = coordinator
     config_entry.async_on_unload(
         config_entry.add_update_listener(async_options_updated)
     )
@@ -49,24 +48,52 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
     return True
 
 
-async def async_unload_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> bool:
+async def async_migrate_entry(
+    hass: HomeAssistant, config_entry: IslamicPrayerTimesConfigEntry
+) -> bool:
+    """Migrate old entry."""
+    _LOGGER.debug("Migrating from version %s", config_entry.version)
+
+    if config_entry.version > 1:
+        # This means the user has downgraded from a future version
+        return False
+    if config_entry.version == 1:
+        new = {**config_entry.data}
+        if config_entry.minor_version < 2:
+            lat = hass.config.latitude
+            lon = hass.config.longitude
+            new = {
+                CONF_LATITUDE: lat,
+                CONF_LONGITUDE: lon,
+            }
+            unique_id = f"{lat}-{lon}"
+        hass.config_entries.async_update_entry(
+            config_entry, data=new, unique_id=unique_id, version=1, minor_version=2
+        )
+
+    _LOGGER.debug("Migration to version %s successful", config_entry.version)
+
+    return True
+
+
+async def async_unload_entry(
+    hass: HomeAssistant, config_entry: IslamicPrayerTimesConfigEntry
+) -> bool:
     """Unload Islamic Prayer entry from config_entry."""
     if unload_ok := await hass.config_entries.async_unload_platforms(
         config_entry, PLATFORMS
     ):
-        coordinator: IslamicPrayerDataUpdateCoordinator = hass.data[DOMAIN].pop(
-            config_entry.entry_id
-        )
+        coordinator = config_entry.runtime_data
         if coordinator.event_unsub:
             coordinator.event_unsub()
-        if not hass.data[DOMAIN]:
-            del hass.data[DOMAIN]
     return unload_ok
 
 
-async def async_options_updated(hass: HomeAssistant, entry: ConfigEntry) -> None:
+async def async_options_updated(
+    hass: HomeAssistant, entry: IslamicPrayerTimesConfigEntry
+) -> None:
     """Triggered by config entry options updates."""
-    coordinator: IslamicPrayerDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator = entry.runtime_data
     if coordinator.event_unsub:
         coordinator.event_unsub()
     await coordinator.async_request_refresh()

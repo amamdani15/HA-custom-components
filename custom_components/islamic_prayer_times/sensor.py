@@ -1,21 +1,19 @@
 """Platform to retrieve Islamic prayer times information for Home Assistant."""
 
-from collections.abc import Mapping
 from datetime import datetime
-from typing import Any
 
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
     SensorEntityDescription,
 )
-from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
-from homeassistant.helpers.entity_platform import AddEntitiesCallback
+from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import CONF_HIJRI_DATE, DOMAIN
+from . import IslamicPrayerTimesConfigEntry
+from .const import DOMAIN, NAME
 from .coordinator import IslamicPrayerDataUpdateCoordinator
 
 SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
@@ -44,10 +42,6 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
         translation_key="isha",
     ),
     SensorEntityDescription(
-        key="Imsak",
-        translation_key="imsak",
-    ),
-    SensorEntityDescription(
         key="Midnight",
         translation_key="midnight",
     ),
@@ -56,14 +50,12 @@ SENSOR_TYPES: tuple[SensorEntityDescription, ...] = (
 
 async def async_setup_entry(
     hass: HomeAssistant,
-    config_entry: ConfigEntry,
-    async_add_entities: AddEntitiesCallback,
+    config_entry: IslamicPrayerTimesConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
     """Set up the Islamic prayer times sensor platform."""
-    coordinator: IslamicPrayerDataUpdateCoordinator = hass.data[DOMAIN][
-        config_entry.entry_id
-    ]
 
+    coordinator = config_entry.runtime_data
     async_add_entities(
         IslamicPrayerTimeSensor(coordinator, description)
         for description in SENSOR_TYPES
@@ -89,6 +81,7 @@ class IslamicPrayerTimeSensor(
         self._attr_unique_id = f"{coordinator.config_entry.entry_id}-{description.key}"
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, coordinator.config_entry.entry_id)},
+            name=NAME,
             entry_type=DeviceEntryType.SERVICE,
         )
 
@@ -96,8 +89,3 @@ class IslamicPrayerTimeSensor(
     def native_value(self) -> datetime:
         """Return the state of the sensor."""
         return self.coordinator.data[self.entity_description.key]
-
-    @property
-    def extra_state_attributes(self) -> Mapping[str, Any]:
-        """Return Hijri date as attribute."""
-        return {CONF_HIJRI_DATE: self.coordinator.hijri_date}
