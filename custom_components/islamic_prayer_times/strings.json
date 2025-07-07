@@ -1,12 +1,14 @@
 {
+  "title": "Islamic Prayer Times",
   "config": {
     "step": {
       "user": {
+        "title": "Set up Islamic Prayer Times",
         "description": "Do you want to set up Islamic Prayer Times?"
       }
     },
     "abort": {
-      "single_instance_allowed": "[%key:common::config_flow::abort::single_instance_allowed%]"
+      "already_configured": "[%key:common::config_flow::abort::already_configured_service%]"
     }
   },
   "options": {
@@ -16,23 +18,12 @@
           "calculation_method": "Prayer calculation method",
           "latitude_adjustment_method": "Latitude adjustment method",
           "midnight_mode": "Midnight mode",
-          "school": "School"
-        },
-        "description": "Configure calculation parameters"
-      },
-      "times_tune": {
-        "data": {
-          "imsak_tune": "Imsak prayer offset",
-          "fajr_tune": "Fajr prayer offset",
-          "sunrise_tune": "Sunrise time offset",
-          "dhuhr_tune": "Dhuhr prayer offset",
-          "asr_tune": "Asr prayer offset",
-          "maghrib_tune": "Maghrib prayer offset",
-          "sunset_tune": "Sunset time offset",
-          "isha_tune": "Isha prayer offset",
-          "midnight_tune": "Midnight time offset"
-        },
-        "description": "Set prayer times offset"
+          "school": "School",
+          "fajr_angle": "Fajr angle (if custom method)",
+          "maghrib_angle": "aghrib angle (if custom method)",
+          "isha_angle": "Isha angle (if custom method)"
+
+        }
       }
     }
   },
@@ -54,6 +45,14 @@
         "turkey": "Diyanet İşleri Başkanlığı, Turkey",
         "russia": "Spiritual Administration of Muslims of Russia",
         "moonsighting": "Moonsighting Committee Worldwide",
+        "dubai": "Dubai",
+        "jakim": "Jabatan Kemajuan Islam Malaysia (JAKIM)",
+        "tunisia": "Tunisia",
+        "algeria": "Algeria",
+        "kemenag": "Kementerian Agama Republik Indonesia",
+        "morocco": "Morocco",
+        "portugal": "Comunidade Islamica de Lisboa",
+        "jordan": "Ministry of Awqaf, Islamic Affairs and Holy Places, Jordan",
         "custom": "Custom"
       }
     },
@@ -96,9 +95,6 @@
       },
       "isha": {
         "name": "Isha prayer"
-      },
-      "imsak": {
-        "name": "Imsak time"
       },
       "midnight": {
         "name": "Midnight time"

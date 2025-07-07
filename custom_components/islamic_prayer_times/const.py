@@ -1,12 +1,10 @@
 """Constants for the Islamic Prayer component."""
-from __future__ import annotations
 
 from typing import Final
 
 DOMAIN: Final = "islamic_prayer_times"
 NAME: Final = "Islamic Prayer Times"
 
-CONF_HIJRI_DATE: Final = "hijri_date"
 CONF_CALC_METHOD: Final = "calculation_method"
 
 CALC_METHODS: Final = [
@@ -25,6 +23,14 @@ CALC_METHODS: Final = [
     "turkey",
     "russia",
     "moonsighting",
+    "dubai",
+    "jakim",
+    "tunisia",
+    "algeria",
+    "kemenag",
+    "morocco",
+    "portugal",
+    "jordan",
     "custom",
 ]
 DEFAULT_CALC_METHOD: Final = "isna"
@@ -41,24 +47,7 @@ CONF_SCHOOL: Final = "school"
 SCHOOLS: Final = ["shafi", "hanafi"]
 DEFAULT_SCHOOL: Final = "shafi"
 
-CONF_TUNE: Final = "tune"
-IMSAK_TUNE: Final = "imsak_tune"
-FAJR_TUNE: Final = "fajr_tune"
-SUNRISE_TUNE: Final = "sunrise_tune"
-DHUHR_TUNE: Final = "dhuhr_tune"
-ASR_TUNE: Final = "asr_tune"
-MAGHRIB_TUNE: Final = "maghrib_tune"
-SUNSET_TUNE: Final = "sunset_tune"
-ISHA_TUNE: Final = "isha_tune"
-MIDNIGHT_TUNE: Final = "midnight_tune"
-TIMES_TUNE: Final = [
-    IMSAK_TUNE,
-    FAJR_TUNE,
-    SUNRISE_TUNE,
-    DHUHR_TUNE,
-    ASR_TUNE,
-    MAGHRIB_TUNE,
-    SUNSET_TUNE,
-    ISHA_TUNE,
-    MIDNIGHT_TUNE,
-]
+CONF_FAJR_ANGLE: Final = "fajr_angle"
+CONF_MAGHRIB_ANGLE: Final = "maghrib_angle"
+CONF_ISHA_ANGLE: Final = "isha_angle"
+DEFAULT_CUSTOM_ANGLE: Final = 0.0
